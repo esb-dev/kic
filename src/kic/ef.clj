@@ -20,6 +20,7 @@
 )           
 
 ;; ## Formulae
+;;
 
 ;; Definition of the operators for kic formulae
 
