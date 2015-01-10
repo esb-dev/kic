@@ -2866,7 +2866,7 @@ net.brehaut.ClojureTools = (function (SH) {
   };
 })(SyntaxHighlighter);
 </script><title>kic -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name"><a href="http://homepages.thm.de/~hg11260/kic.html">kic</a></h1><h2 class="project-version">0.1.0-SNAPSHOT</h2><br /><p>Kodkod in Clojure</p>
-</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0</td></tr><tr><td class="dep-name">kodkod</td><td class="dotted"><hr /></td><td class="dep-version">2.0.0</td></tr><tr><td class="dep-name">org.ow2.sat4j/org.ow2.sat4j.core</td><td class="dotted"><hr /></td><td class="dep-version">2.3.5</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#kic.core">kic.core</a></li><li><a href="#kic.core">kic.core</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#kic.core" name="kic.core"><h1 class="project-name">kic.core</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>A Clojure wrapper to the Kodkod constraint solver.</p>
+</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0</td></tr><tr><td class="dep-name">kodkod</td><td class="dotted"><hr /></td><td class="dep-version">2.0.0</td></tr><tr><td class="dep-name">org.ow2.sat4j/org.ow2.sat4j.core</td><td class="dotted"><hr /></td><td class="dep-version">2.3.5</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#kic.core">kic.core</a></li><li><a href="#kic.core">kic.core</a></li><li><a href="#kic.examples.sudoku">kic.examples.sudoku</a></li><li><a href="#kic.rel">kic.rel</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#kic.core" name="kic.core"><h1 class="project-name">kic.core</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>A Clojure wrapper to the Kodkod constraint solver.</p>
 </td><td class="codes"><pre class="brush: clojure">(ns ^{:doc    
       :author &quot;Burkhardt Renz THM&quot;}
   kic.core
@@ -3014,49 +3014,31 @@ key/value pairs for the relational variables</p>
   (:import [kodkod.ast Expression IntExpression IntConstant])
   (:import [kodkod.ast Decls Decl]))           </pre></td></tr><tr><td class="docs"><h2>Formulae</h2>
 </td><td class="codes"></td></tr><tr><td class="docs"><p>Definition of the operators for kic formulae</p>
-</td><td class="codes"></td></tr><tr><td class="docs"><p>(and &amp; fmls) -> fml, the conjunction of the given fmls </p>
-
-<p>Conjunction</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>(and &amp; fmls), the conjunction of the given fmls </p>
 </td><td class="codes"><pre class="brush: clojure">(defn and
   [&amp; fmls]
-  (Formula/and ^&quot;[Lkodkod.ast.Formula;&quot; (into-array Formula fmls)))</pre></td></tr><tr><td class="docs"><p>(or &amp; fmls) -> fml, the disjunction of the given fmls</p>
-
-<p>Disjunction</p>
+  (Formula/and ^&quot;[Lkodkod.ast.Formula;&quot; (into-array Formula fmls)))</pre></td></tr><tr><td class="docs"><p>(or &amp; fmls), the disjunction of the given fmls</p>
 </td><td class="codes"><pre class="brush: clojure">(defn or
   [&amp; fmls]
-  (Formula/or ^&quot;[Lkodkod.ast.Formula;&quot; (into-array Formula fmls)))</pre></td></tr><tr><td class="docs"><p>(iff  fml1 fml2) -> fml, the equivalence of the given fmls</p>
-
-<p>Equivalence</p>
+  (Formula/or ^&quot;[Lkodkod.ast.Formula;&quot; (into-array Formula fmls)))</pre></td></tr><tr><td class="docs"><p>(iff  fml1 fml2), the equivalence of the given fmls</p>
 </td><td class="codes"><pre class="brush: clojure">(defn iff
   [^Formula fml1 ^Formula fml2]
-  (.iff fml1 fml2))</pre></td></tr><tr><td class="docs"><p>(impl  fml1 fml2) -> fml, the implication fml1 -> fml2.</p>
-
-<p>Implication</p>
+  (.iff fml1 fml2))</pre></td></tr><tr><td class="docs"><p>(impl  fml1 fml2), the implication fml1 -> fml2.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn impl
   [^Formula fml1 ^Formula fml2]
-  (.implies fml1 fml2))</pre></td></tr><tr><td class="docs"><p>(not  fml) -> fml, the negation of fml.</p>
-
-<p>Negation</p>
+  (.implies fml1 fml2))</pre></td></tr><tr><td class="docs"><p>(not fml), the negation of fml.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn not
   [^Formula fml]
-  (.not fml))</pre></td></tr><tr><td class="docs"><p>TRUE -> the constant fml TRUE.</p>
-
-<p>Truth</p>
-</td><td class="codes"><pre class="brush: clojure">(def TRUE 
-  Formula/TRUE)</pre></td></tr><tr><td class="docs"><p>FALSE -> the constant fml FALSE.</p>
-
-<p>The Contradiction</p>
-</td><td class="codes"><pre class="brush: clojure">(def FALSE 
-  Formula/FALSE)</pre></td></tr><tr><td class="docs"><p>(in expr1 expr2) -> fml, the formula expressing whether expr1 is a subset of expr2.</p>
-
-<p>subset</p>
-</td><td class="codes"><pre class="brush: clojure">(defn in 
+  (.not fml))</pre></td></tr><tr><td class="docs"><p>TRUE, truth, i.e. the constant fml TRUE.</p>
+</td><td class="codes"><pre class="brush: clojure">(def TRUE
+  Formula/TRUE)</pre></td></tr><tr><td class="docs"><p>FALSE, contradiction, i.e. the constant fml FALSE.</p>
+</td><td class="codes"><pre class="brush: clojure">(def FALSE
+  Formula/FALSE)</pre></td></tr><tr><td class="docs"><p>(in expr1 expr2), expressing whether expr1 is a subset of expr2.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn in
   [^Expression expr1 ^Expression expr2]
   {:pre (= (. expr1 arity) (. expr2 arity))}
-  (.in expr1 expr2))</pre></td></tr><tr><td class="docs"><p>Usage: (eq expr1 expr2) -> fml, the formula expressing whether expr1 equals expr2.
+  (.in expr1 expr2))</pre></td></tr><tr><td class="docs"><p>(eq expr1 expr2), expressing whether expr1 equals expr2.
    The types of expr1 and expr1 are Expression or IntExpression.</p>
-
-<p>Equality</p>
 </td><td class="codes"><pre class="brush: clojure">(defmulti eq
    (fn [e1 e2] [(class e1) (class e2)] ))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defmethod eq [Expression Expression]
@@ -3064,273 +3046,185 @@ key/value pairs for the relational variables</p>
   (.eq expr1 expr2)) </pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defmethod eq [IntExpression IntExpression]
   [^IntExpression int-expr1 ^IntExpression int-expr2]
-  (.eq int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(lone expr) -> fml, the formula expressing whether expr has at least one tuple.</p>
-
-<p>Cardinality at least 1</p>
+  (.eq int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(lone expr), expressing whether expr has at least one tuple.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn lone
   [^Expression expr]
-  (.lone expr))</pre></td></tr><tr><td class="docs"><p>(one expr) -> fml, the formula expressing whether expr has exactly one tuple.</p>
-
-<p>Cardinality exactly 1</p>
+  (.lone expr))</pre></td></tr><tr><td class="docs"><p>(one expr), expressing whether expr has exactly one tuple.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn one
   [^Expression expr]
-  (.one expr))</pre></td></tr><tr><td class="docs"><p>(some expr) -> fml, the formula expressing whether expr has 0..* tuples, or
-   (some decls fml) -> fml, the existential quantified formula.</p>
-
-<p>Cardinality >= 0</p>
+  (.one expr))</pre></td></tr><tr><td class="docs"><p>(some expr), expressing whether expr has 0..* tuples, or
+   (some decls fml), the existential quantified formula fml.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn some
   ([^Expression expr]
   (.some expr))
   ([^Decls decls ^Formula fml]
-  (.forSome fml decls)))  </pre></td></tr><tr><td class="docs"><p>(no expr) -> fml, the formula expressing whether expr is empty.</p>
-
-<p>Cardinality 0</p>
+  (.forSome fml decls)))  </pre></td></tr><tr><td class="docs"><p>(no expr), the formula expressing whether expr is empty.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn no
   [^Expression expr]
-  (.no expr))</pre></td></tr><tr><td class="docs"><p>(total-ordering rel ordered first last) -> fml,
+  (.no expr))</pre></td></tr><tr><td class="docs"><p>(total-ordering rel ordered first last),
    a formula expressing that rel imposes a total ordering over
    the unary relation (set) ordered where the first and last element 
    are given by the elements first and last resp.</p>
-
-<p>Total ordering</p>
 </td><td class="codes"><pre class="brush: clojure">(defn total-ordering
   [^Relation rel ordered first last]
   {:pre (= (. rel arity) 2)} 
-  (.totalOrder rel ordered first last))</pre></td></tr><tr><td class="docs"><p>(function rel domain range) -> fml,
+  (.totalOrder rel ordered first last))</pre></td></tr><tr><td class="docs"><p>(function rel domain range),
    a formula expressing that rel is a function from expr domain to expr range.</p>
-
-<p>Function</p>
-</td><td class="codes"><pre class="brush: clojure">(defn function 
+</td><td class="codes"><pre class="brush: clojure">(defn function
   [^Relation rel domain range]
   {:pre (= (. rel arity) 2)} 
-  (.function rel domain range))</pre></td></tr><tr><td class="docs"><p>(partial-function rel domain range) -> fml
+  (.function rel domain range))</pre></td></tr><tr><td class="docs"><p>(partial-function rel domain range),
    a formula expressing that rel is a partial function from expr domain to expr range.</p>
-
-<p>Partial function</p>
-</td><td class="codes"><pre class="brush: clojure">(defn partial-function 
+</td><td class="codes"><pre class="brush: clojure">(defn partial-function
   [^Relation rel domain range]
   {:pre (= (. rel arity) 2)} 
-  (.partialFunction rel domain range))</pre></td></tr><tr><td class="docs"><p>(acyclic rel) -> fml, a formula expressing that rel is acyclic.</p>
-
-<p>acyclic</p>
-</td><td class="codes"><pre class="brush: clojure">(defn acyclic 
+  (.partialFunction rel domain range))</pre></td></tr><tr><td class="docs"><p>(acyclic rel), a formula expressing that rel is acyclic.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn acyclic
   [^Relation rel]
   {:pre (= (. rel arity) 2)} 
-  (.acyclic rel))</pre></td></tr><tr><td class="docs"><p>(lt int-expr1 int-expr2) -> fml, expressing whether int-expr1 &lt; int-expr2.</p>
-
-<p>Less than</p>
-</td><td class="codes"><pre class="brush: clojure">(defn lt  
+  (.acyclic rel))</pre></td></tr><tr><td class="docs"><p>(lt int-expr1 int-expr2), expressing whether int-expr1 &lt; int-expr2.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn lt
   [^IntExpression int-expr1 ^IntExpression int-expr2]
-  (.lt int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(lte int-expr1 int-expr2) -> fml, expressing whether int-expr1 &lt;= int-expr2.</p>
-
-<p>Less than or equal</p>
-</td><td class="codes"><pre class="brush: clojure">(defn lte   
+  (.lt int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(lte int-expr1 int-expr2), expressing whether int-expr1 &lt;= int-expr2.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn lte
   [^IntExpression int-expr1 ^IntExpression int-expr2]
-  (.lte int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(gt int-expr1 int-expr2) -> fml,  expressing whether int-expr1 > int-expr2.</p>
-
-<p>Greater than</p>
-</td><td class="codes"><pre class="brush: clojure">(defn gt  
+  (.lte int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(gt int-expr1 int-expr2),  expressing whether int-expr1 > int-expr2.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn gt
   [^IntExpression int-expr1 ^IntExpression int-expr2]
-  (.gt int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(gte int-expr1 int-expr2) -> fml, expressing whether int-expr1 >= int-expr2.</p>
-
-<p>Gerater than or equal</p>
-</td><td class="codes"><pre class="brush: clojure">(defn gte   
+  (.gt int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(gte int-expr1 int-expr2), expressing whether int-expr1 >= int-expr2.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn gte
   [^IntExpression int-expr1 ^IntExpression int-expr2]
-  (.gte int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(all decls fml) -> fml, universal quantifier over decls and fml.</p>
-
-<p>Universal quantifier</p>
-</td><td class="codes"><pre class="brush: clojure">(defn all   
+  (.gte int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(all decls fml), universal quantifier over decls and fml.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn all
   [^Decls decls ^Formula fml]
-  (.forAll fml decls))</pre></td></tr><tr><td class="docs"><p>Expressions denoting the manipulation of values of relational variables</p>
-</td><td class="codes"></td></tr><tr><td class="docs"><p>(intersection expr &amp; more-exprs) -> expr, the intersection of the arguments.</p>
-
-<p>Intersection</p>
+  (.forAll fml decls))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(declare decls decl)</pre></td></tr><tr><td class="docs"><p>fml holds for all variables in var-vec with values from the universe,
+  e.g. (forall [x y] (complete x y))</p>
+</td><td class="codes"><pre class="brush: clojure">(defn forall
+  [var-vec fml]
+  (let [d (apply decls (map decl var-vec))]
+    (.forAll fml d)))</pre></td></tr><tr><td class="docs"><p>Expressions denoting the manipulation of values of relational variables</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>(intersection expr &amp; more-exprs), the intersection of the arguments.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn intersection
   [expr &amp; more-exprs]
-  (Expression/intersection ^&quot;[Lkodkod.ast.Expression;&quot; (into-array (cons expr more-exprs))))</pre></td></tr><tr><td class="docs"><p>(override expr &amp; more-exprs) -> expr, the override of the arguments.</p>
-
-<p>Override</p>
-</td><td class="codes"><pre class="brush: clojure">(defn override 
+  (Expression/intersection ^&quot;[Lkodkod.ast.Expression;&quot; (into-array (cons expr more-exprs))))</pre></td></tr><tr><td class="docs"><p>(override expr &amp; more-exprs), the override of the arguments.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn override
   [expr &amp; more-exprs]
-  (Expression/override ^&quot;[Lkodkod.ast.Expression;&quot; (into-array (cons expr more-exprs))))</pre></td></tr><tr><td class="docs"><p>(product expr &amp; more-exprs) -> expr, the cartesian product of the arguments.</p>
-
-<p>Cartesian Product</p>
-</td><td class="codes"><pre class="brush: clojure">(defn product 
+  (Expression/override ^&quot;[Lkodkod.ast.Expression;&quot; (into-array (cons expr more-exprs))))</pre></td></tr><tr><td class="docs"><p>(product expr &amp; more-exprs), the cartesian product of the arguments.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn product
   [expr &amp; more-exprs]
-  (Expression/product ^&quot;[Lkodkod.ast.Expression;&quot; (into-array (cons expr more-exprs))))</pre></td></tr><tr><td class="docs"><p>(union expr &amp; more-exprs) -> expr, the union of the arguments.</p>
-
-<p>Union</p>
-</td><td class="codes"><pre class="brush: clojure">(defn union 
+  (Expression/product ^&quot;[Lkodkod.ast.Expression;&quot; (into-array (cons expr more-exprs))))</pre></td></tr><tr><td class="docs"><p>(union expr &amp; more-exprs), the union of the arguments.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn union
   [expr &amp; more-exprs]
-  (Expression/union ^&quot;[Lkodkod.ast.Expression;&quot; (into-array (cons expr more-exprs))))</pre></td></tr><tr><td class="docs"><p>(difference expr1 expr2) -> expr, the difference of the arguments.</p>
-
-<p>Difference</p>
-</td><td class="codes"><pre class="brush: clojure">(defn difference 
+  (Expression/union ^&quot;[Lkodkod.ast.Expression;&quot; (into-array (cons expr more-exprs))))</pre></td></tr><tr><td class="docs"><p>(difference expr1 expr2), the difference of the arguments.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn difference
   [^Expression expr1 ^Expression expr2]
-  (.difference expr1 expr2))</pre></td></tr><tr><td class="docs"><p>(dotjoin expr1 expr2) -> expr, the dotjoin of the arguments.</p>
-
-<p>Dotjoin</p>
-</td><td class="codes"><pre class="brush: clojure">(defn dotjoin 
+  (.difference expr1 expr2))</pre></td></tr><tr><td class="docs"><p>(dotjoin expr1 expr2), the dotjoin of the arguments.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn dotjoin
   [^Expression expr1 ^Expression expr2]
-  (.join expr1 expr2))</pre></td></tr><tr><td class="docs"><p>(tclose expr) -> expr, the transitive closure of expr.</p>
-
-<p>Transitive closure of a binary expression</p>
-</td><td class="codes"><pre class="brush: clojure">(defn tclose 
+  (.join expr1 expr2))</pre></td></tr><tr><td class="docs"><p>(tclose bin-expr), the transitive closure of binary expression bin-expr.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn tclose
   [^Expression expr]
   {:pre (= (. expr arity) 2)} 
-  (.closure expr))</pre></td></tr><tr><td class="docs"><p>(rtclose expr) -> expr, the reflexive transitive closure of expr.</p>
-
-<p>Reflexive transitive closure of a binary expression</p>
-</td><td class="codes"><pre class="brush: clojure">(defn rtclose 
+  (.closure expr))</pre></td></tr><tr><td class="docs"><p>(rtclose bin-expr), the reflexive transitive closure of bin-expr.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn rtclose
   [^Expression expr]
   {:pre (= (. expr arity) 2)} 
-  (.reflexiveClosure expr))</pre></td></tr><tr><td class="docs"><p>(transpose expr) -> expr, the transpose of expr.</p>
-
-<p>Transposition</p>
-</td><td class="codes"><pre class="brush: clojure">(defn transpose 
+  (.reflexiveClosure expr))</pre></td></tr><tr><td class="docs"><p>(transpose bin-expr), the transposition of bin-expr.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn transpose
   [^Expression expr]
   {:pre (= (. expr arity) 2)} 
-  (.transpose expr))</pre></td></tr><tr><td class="docs"><p>(project expr int-expr &amp; more-int-exprs) -> expr, 
+  (.transpose expr))</pre></td></tr><tr><td class="docs"><p>(project expr int-expr &amp; more-int-exprs)
    the projections of expr on the columns given by the int-expr arguments.</p>
-
-<p>Projection</p>
-</td><td class="codes"><pre class="brush: clojure">(defn project 
+</td><td class="codes"><pre class="brush: clojure">(defn project
   [^Expression expr int-expr &amp; more-int-exprs]
-  (.project expr (into-array (cons int-expr more-int-exprs))))</pre></td></tr><tr><td class="docs"><p>NONE -> the unary relation without tuples.</p>
-
-<p>Unary empty relation</p>
+  (.project expr (into-array (cons int-expr more-int-exprs))))</pre></td></tr><tr><td class="docs"><p>NONE, the unary relation without tuples.</p>
 </td><td class="codes"><pre class="brush: clojure">(def NONE
-   Expression/NONE)</pre></td></tr><tr><td class="docs"><p>UNIV -> the unary relation containing one-tuples of all atoms of the universe.</p>
-
-<p>Universal relation</p>
+   Expression/NONE)</pre></td></tr><tr><td class="docs"><p>UNIV, the universal relation, i.e. the unary relation containing
+   one-tuples of all atoms of the universe.</p>
 </td><td class="codes"><pre class="brush: clojure">(def UNIV
-   Expression/UNIV)</pre></td></tr><tr><td class="docs"><p>IDEN -> the binary relation containing pairs of all identical atoms of the universe.</p>
-
-<p>Identity relation</p>
+   Expression/UNIV)</pre></td></tr><tr><td class="docs"><p>IDEN, the binary identity relation over the universe.</p>
 </td><td class="codes"><pre class="brush: clojure">(def IDEN
-   Expression/IDEN)</pre></td></tr><tr><td class="docs"><p>INTS -> the unary relation containing all atoms bound to integers.</p>
+   Expression/IDEN)</pre></td></tr><tr><td class="docs"><p>INTS, the unary relation containing all atoms bound to integers.</p>
 
 <p>Integers as relation</p>
 </td><td class="codes"><pre class="brush: clojure">(def INTS
-   Expression/INTS)</pre></td></tr><tr><td class="docs"><p>Usage: (ite fml expr1 expr2) -> expr
-          (ite fml int-expr1 int-expr1) -> int-expr
-   Returns the second argument if fml is true, the third otherwise.</p>
-
-<p>If then else</p>
+   Expression/INTS)</pre></td></tr><tr><td class="docs"><p>(ite fml expr1 expr2)
+   (ite fml int-expr1 int-expr2)
+   if fml then expr1 else expr2</p>
 </td><td class="codes"><pre class="brush: clojure">(defmulti ite
-   (fn [fml expr1 expr2] (class expr1)) )</pre></td></tr><tr><td class="docs">
+   (fn [fml expr1 expr2] (class expr1)))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defmethod ite Expression 
   [^Formula fml ^Expression expr1 ^Expression expr2]
   (.thenElse fml expr1 expr2))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defmethod ite IntExpression 
   [^Formula fml ^IntExpression int-expr1 ^IntExpression int-expr2]
-  (.thenElse fml  int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(int-cast int-expr) -> expr, a relational expression of the given int-expr.</p>
-
-<p>Cast from integer</p>
+  (.thenElse fml  int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(int-cast int-expr), a relational expression of the given int-expr.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn int-cast
   [^IntExpression int-expr]
-  (.toExpression int-expr))</pre></td></tr><tr><td class="docs"><p>(bitset-cast int-expr) -> expr, an expression whose meaning 
+  (.toExpression int-expr))</pre></td></tr><tr><td class="docs"><p>(bitset-cast int-expr), an expression whose meaning
    is the set containing the atoms 
      that represent the powers of 2 (bits) present in the int-expr.</p>
-
-<p>Cast from bitset</p>
 </td><td class="codes"><pre class="brush: clojure">(defn bitset-cast
   [^IntExpression int-expr]
-  (.toBitset int-expr))</pre></td></tr><tr><td class="docs"><p>(comprehension decls fml) -> expr, the expression defined by decls and fml.</p>
-
-<p>Comprehension</p>
+  (.toBitset int-expr))</pre></td></tr><tr><td class="docs"><p>(comprehension decls fml), the expression defined by decls and fml.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn comprehension
   [^Decls decls ^Formula fml]
   (.comprehension fml decls))</pre></td></tr><tr><td class="docs"><p>Variables used in expression with quantifiers</p>
-</td><td class="codes"></td></tr><tr><td class="docs"><p>(variable :var-name) -> unary var or
-   (variable :var-name arity) -> var of the given arity.</p>
-
-<p>Variable</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>(variable :var-name), constructs a variable of arity 1
+   (variable :var-name arity), constructs a var of the given arity.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn variable
   ([var-name]
     (Variable/unary (name var-name)))
   ([var-name arity]
     (Variable/nary (name var-name) arity)))</pre></td></tr><tr><td class="docs"><p>Integer expressions</p>
-</td><td class="codes"></td></tr><tr><td class="docs"><p>(plus int-expr &amp; more-int-exprs) -> int-expr, the sum of the arguments.</p>
-
-<p>+</p>
-</td><td class="codes"><pre class="brush: clojure">(defn plus 
+</td><td class="codes"></td></tr><tr><td class="docs"><p>(plus int-expr &amp; more-int-exprs), the sum of the arguments.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn plus
   [int-expr &amp; more-int-exprs]
-  (IntExpression/plus ^&quot;[Lkodkod.ast.IntExpression;&quot; (into-array (cons int-expr more-int-exprs))))</pre></td></tr><tr><td class="docs"><p>(mult int-expr &amp; more-int-exprs) -> int-expr, the product of the arguments.</p>
-
-<p>*</p>
-</td><td class="codes"><pre class="brush: clojure">(defn mult 
+  (IntExpression/plus ^&quot;[Lkodkod.ast.IntExpression;&quot; (into-array (cons int-expr more-int-exprs))))</pre></td></tr><tr><td class="docs"><p>(mult int-expr &amp; more-int-exprs), the product of the arguments.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn mult
   [int-expr &amp; more-int-exprs]
-  (IntExpression/multiply ^&quot;[Lkodkod.ast.IntExpression;&quot; (into-array (cons int-expr more-int-exprs))))</pre></td></tr><tr><td class="docs"><p>(bit-and int-expr &amp; more-int-exprs) -> int-expr, the bitwise and of the arguments.</p>
-
-<p>bitwise and</p>
-</td><td class="codes"><pre class="brush: clojure">(defn bit-and 
+  (IntExpression/multiply ^&quot;[Lkodkod.ast.IntExpression;&quot; (into-array (cons int-expr more-int-exprs))))</pre></td></tr><tr><td class="docs"><p>(bit-and int-expr &amp; more-int-exprs), the bitwise and of the arguments.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn bit-and
   [int-expr &amp; more-int-exprs]
-  (IntExpression/and ^&quot;[Lkodkod.ast.IntExpression;&quot; (into-array (cons int-expr more-int-exprs))))</pre></td></tr><tr><td class="docs"><p>(bit-or int-expr &amp; more-int-exprs) -> int-expr, the bitwise or of the arguments.</p>
-
-<p>bitwise or</p>
-</td><td class="codes"><pre class="brush: clojure">(defn bit-or 
+  (IntExpression/and ^&quot;[Lkodkod.ast.IntExpression;&quot; (into-array (cons int-expr more-int-exprs))))</pre></td></tr><tr><td class="docs"><p>(bit-or int-expr &amp; more-int-exprs), the bitwise or of the arguments.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn bit-or
   [int-expr &amp; more-int-exprs]
-  (IntExpression/or ^&quot;[Lkodkod.ast.IntExpression;&quot; (into-array (cons int-expr more-int-exprs))))</pre></td></tr><tr><td class="docs"><p>(sh-left int-expr1 int-expr2) -> int-expr for int-expr1 &lt;&lt; int-expr2.</p>
-
-<p>shift left</p>
-</td><td class="codes"><pre class="brush: clojure">(defn sh-left 
+  (IntExpression/or ^&quot;[Lkodkod.ast.IntExpression;&quot; (into-array (cons int-expr more-int-exprs))))</pre></td></tr><tr><td class="docs"><p>(sh-left int-expr1 int-expr2), left shift int-expr1 &lt;&lt; int-expr2.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn sh-left
   [^IntExpression int-expr1 ^IntExpression int-expr2]
-  (.shl int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(sh-right-sign int-expr1 int-expr2) -> int-expr for int-epr1 >>> int-expr2.</p>
-
-<p>shift right with sign</p>
-</td><td class="codes"><pre class="brush: clojure">(defn sh-right-sign 
+  (.shl int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(sh-right-sign int-expr1 int-expr2)right shift with sign int-epr1 >>> int-expr2.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn sh-right-sign
   [^IntExpression int-expr1 ^IntExpression int-expr2]
-  (.sha int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(sh-right-zero int-expr1 int-expr2) -> int-expr for int-expr1 >> int-expr2.</p>
-
-<p>shift right zero</p>
-</td><td class="codes"><pre class="brush: clojure">(defn sh-right-zero 
+  (.sha int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(sh-right-zero int-expr1 int-expr2) right shift int-expr1 >> int-expr2.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn sh-right-zero
   [^IntExpression int-expr1 ^IntExpression int-expr2]
-  (.shr int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(minus int-expr1 int-expr2) -> int-expr for int-expr1 - int-expr2.</p>
-
-<p>-</p>
-</td><td class="codes"><pre class="brush: clojure">(defn minus 
+  (.shr int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(minus int-expr1 int-expr2), substraction  int-expr1 - int-expr2.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn minus
   [^IntExpression int-expr1 ^IntExpression int-expr2]
-  (.minus int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(div int-expr1 int-expr2) -> int-expr for int-expr1 / int-expr2.</p>
-
-<p>/</p>
-</td><td class="codes"><pre class="brush: clojure">(defn div 
+  (.minus int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(div int-expr1 int-expr2), division int-expr1 / int-expr2.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn div
   [^IntExpression int-expr1 ^IntExpression int-expr2]
-  (.divide int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(mod int-expr1 int-expr2) -> int-expr for int-expr1 % int-expr2.</p>
-
-<p>mod</p>
-</td><td class="codes"><pre class="brush: clojure">(defn mod 
+  (.divide int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(mod int-expr1 int-expr2), modulo int-expr1 % int-expr2.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn mod
   [^IntExpression int-expr1 ^IntExpression int-expr2]
-  (.modulo int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(bit-xor int-expr1 int-expr2) -> int-expr for int-expr1 xor int-expr2.</p>
-
-<p>bitwise xor</p>
-</td><td class="codes"><pre class="brush: clojure">(defn bit-xor 
+  (.modulo int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(bit-xor int-expr1 int-expr2), bitwise xor int-expr1 xor int-expr2.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn bit-xor
   [^IntExpression int-expr1 ^IntExpression int-expr2]
-  (.xor int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(neg int-expr) -> int-expr for the negation of the argument.</p>
-
-<p>negation of integer expression</p>
+  (.xor int-expr1 int-expr2))</pre></td></tr><tr><td class="docs"><p>(neg int-expr), negation -int-xpr.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn neg
   [^IntExpression int-expr]
-  (.negate int-expr))</pre></td></tr><tr><td class="docs"><p>(bit-not int-expr) -> int-expr for the bitwise negation of the argument.</p>
-
-<p>bitwise not</p>
+  (.negate int-expr))</pre></td></tr><tr><td class="docs"><p>(bit-not int-expr), bitwise negation of the argument.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn bit-not
   [^IntExpression int-expr]
-  (.not int-expr))</pre></td></tr><tr><td class="docs"><p>(abs int-expr) -> int-expr for the absolute value of the argument.</p>
-
-<p>abs</p>
+  (.not int-expr))</pre></td></tr><tr><td class="docs"><p>(abs int-expr), absolute value of the argument.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn abs
   [^IntExpression int-expr]
-  (.abs int-expr))</pre></td></tr><tr><td class="docs"><p>(sgn int-expr) -> int-expr for the signum function of the argument.</p>
-
-<p>Signum</p>
+  (.abs int-expr))</pre></td></tr><tr><td class="docs"><p>(sgn int-expr), sign of the argument.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn sgn
   [^IntExpression int-expr]
-  (.signum int-expr))</pre></td></tr><tr><td class="docs"><p>(sum decls int-expr) -> int-expr of the sum of all values int-expr 
-                           can have for the given decls,
-   (sum expr) -> int-expr of the sum of the integer atoms in expr.</p>
-
-<p>sum</p>
+  (.signum int-expr))</pre></td></tr><tr><td class="docs"><p>(sum decls int-expr), sum of all values int-expr can have for the given decls,
+   (sum expr), sum of the integer atoms in expr.</p>
 </td><td class="codes"><pre class="brush: clojure">(defmulti sum
   (fn [first &amp; more] (class first)))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defmethod sum Decls
@@ -3338,23 +3232,20 @@ key/value pairs for the relational variables</p>
   (.sum int-expr decls))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defmethod sum Expression
   [^Expression expr]
-  (.sum expr))</pre></td></tr><tr><td class="docs"><p>(count expr) -> int-expr of the number of tuples in expr.</p>
-
-<p>count</p>
+  (.sum expr))</pre></td></tr><tr><td class="docs"><p>(count expr), number of tuples in expr.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn count
   [^Expression expr]
-  (.count expr))</pre></td></tr><tr><td class="docs"><p>(iexp int) -> int-expr for the given integer int.</p>
-
-<p>integer as expression</p>
+  (.count expr))</pre></td></tr><tr><td class="docs"><p>(iexp int), int-expr for the given integer int.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn iexp
   [int]
   (IntConstant/constant int))</pre></td></tr><tr><td class="docs"><p>Declarations</p>
-</td><td class="codes"></td></tr><tr><td class="docs"><p>(decls decl &amp; more-decls) -> decls, the combined decls from the arguments.</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>(decls decl &amp; more-decls), the combined decls from the arguments.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn decls
   [decl &amp; more-decls]
-  (reduce #(.and ^Decls %1 ^Decls %2) decl more-decls)) </pre></td></tr><tr><td class="docs"><p>(decl variable) -> (decl variable UNIV :one), or
+  (reduce #(.and ^Decls %1 ^Decls %2) decl more-decls)) </pre></td></tr><tr><td class="docs"><p>(decl variable)      -> (decl variable UNIV :one), or
    (decl variable expr) -> (decl variable expr :one), or
-   (decl variable expr :multiplicity) -> decl 
+   (decl variable expr :multiplicity)
+                        -> decl
    for the variable and the expression and the
    multiplicity :one (default), :lone, :some, or :set.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn decl
@@ -3367,7 +3258,203 @@ key/value pairs for the relational variables</p>
       :one  (.oneOf  variable expr)
       :lone (.loneOf variable expr)
       :some (.someOf variable expr)
-      :set  (.setOf  variable expr))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr></table><div class="footer">Generated by <a href="https://github.com/gdeer81/marginalia">Marginalia</a>.&nbsp;&nbsp;Syntax highlighting provided by Alex Gorbatchev's <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a><div id="floating-toc"><ul><li class="floating-toc-li" id="floating-toc_kic.core">kic.core</li><li class="floating-toc-li" id="floating-toc_kic.core">kic.core</li></ul></div></div><script type="text/javascript">SyntaxHighlighter.defaults['gutter'] = false;
+      :set  (.setOf  variable expr))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#kic.examples.sudoku" name="kic.examples.sudoku"><h1 class="project-name">kic.examples.sudoku</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(ns kic.examples.sudoku
+  (:require [kic.core :as kic])
+  (:require [kic.rel :as rel])
+  (:require [clojure.java.io :refer (reader)])
+  (:require [clojure.set :as set]))</pre></td></tr><tr><td class="docs"><p>A puzzle is represented as a string of digits</p>
+</td><td class="codes"><pre class="brush: clojure">(def puzzle &quot;.24...38.6.72.91.481.7.3.96.48...97...........69...51.75.9.8.414.16.57.9.96...83.&quot;)</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">puzzle
+</pre></td></tr><tr><td class="docs"><p>Structure of the Sudoku world</p>
+</td><td class="codes"><pre class="brush: clojure">(def sudoku (kic/structure
+              (vec (range 1 10))  ; universe atoms are integers 1..9
+              {:grid 3, :region1 1, :region2 1, :region3 1}))</pre></td></tr><tr><td class="docs"><p>Constructing the bounds for the puzzle</p>
+</td><td class="codes"><pre class="brush: clojure">(def reg1 (rel/unary-rel (range 1  4)))
+(def reg2 (rel/unary-rel (range 4  7)))
+(def reg3 (rel/unary-rel (range 7 10)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(def reg1-b {:region1 [reg1, reg1]})
+(def reg2-b {:region2 [reg2, reg2]})
+(def reg3-b {:region3 [reg3, reg3]})</pre></td></tr><tr><td class="docs"><p>Returns the row of the number at idx.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn- row
+  [idx]
+  (inc (quot idx 9)))</pre></td></tr><tr><td class="docs"><p>Returns the col of the number at idx.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn- col
+  [idx]
+  (inc (rem idx 9)))</pre></td></tr><tr><td class="docs"><p>Returns the int of given char.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn- ctoi
+  [char]
+  (- (int char) (int \0)))</pre></td></tr><tr><td class="docs"><p>Returns the tuples for the upper bound for number c (as char).</p>
+</td><td class="codes"><pre class="brush: clojure">(defn- upper-tuples
+  [^Character c ^Integer idx]
+  (let [n (ctoi c) row (row idx) col (col idx) univ (kic/univ sudoku)]
+    (if-not (= c \.)
+      #{[row col n]}
+      (rel/crossjoin #{[row col]} univ))))</pre></td></tr><tr><td class="docs"><p>Returns the tuple for the lower bound for number c.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn- lower-tuple
+  [^Character c ^Integer idx]
+  (let [n (ctoi c) row (row idx) col (col idx)]
+    (if-not (= c \.)
+      #{[row col n]}
+      nil)))</pre></td></tr><tr><td class="docs"><p>Returns lower and upper bounds of :grid for the given puzzle.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn- grid-bounds
+  [^String puzzle]
+  (loop [s puzzle, i 0, lower #{}, upper #{}]
+    (if (empty? s)
+      [lower upper]
+      (recur (next s) (inc i) (set/union lower (lower-tuple (first s) i))
+             (set/union upper (upper-tuples (first s) i))))))</pre></td></tr><tr><td class="docs"><p>Returns bounds for the given puzzle.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn sudoku-bounds
+  [puzzle]
+  (kic/bounds sudoku (merge reg1-b reg2-b reg3-b {:grid (grid-bounds puzzle)})))</pre></td></tr><tr><td class="docs"><p>Returns the expression for the cells in the grid given by rows and cols.
+   Uses var sudoku!</p>
+
+<p>rules</p>
+</td><td class="codes"><pre class="brush: clojure">(defn- cells
+  [rows cols]
+  (kic/dotjoin cols (kic/dotjoin rows (kic/relvar sudoku :grid))))</pre></td></tr><tr><td class="docs"><p>Returns the formula whether all numbers are in the given cells.
+   Uses var sudoku!</p>
+</td><td class="codes"><pre class="brush: clojure">(def c (comprehension))
+(cells 1 2)
+(defn- complete
+  [rows cols]
+  (kic/in kic/UNIV (cells rows cols)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(def reg-rules
+  (let [r1   (kic/relvar sudoku :region1)
+        r2   (kic/relvar sudoku :region2)
+        r3   (kic/relvar sudoku :region3)]
+    (apply kic/and
+           (for [x [r1 r2 r3] y [r1 r2 r3]]
+             (complete x y)))))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(def rules
+  (let [x    (kic/variable :x)
+        y    (kic/variable :y)
+        n    kic/UNIV
+        f1   (kic/forall [x y] (kic/one (cells x y)))
+        ; &quot;all x, y | one y.(x.grid)&quot;
+        f2   (kic/forall [x] (complete x n))
+        ; &quot;all x | n in n.(x.grid)&quot;
+        f3   (kic/forall [y] (complete n y))
+        ; &quot;all y | n in y.(n.grid)&quot;
+        ]
+    (kic/and f1 f2 f3 reg-rules)))</pre></td></tr><tr><td class="docs"><p>Returns the solution of the puzzle.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn solve
+  [puzzle]
+  (let  [sol (kic/solve rules (sudoku-bounds puzzle))
+         sol-grid (sort (((kic/inst-from-solution sol) 1) :grid))]
+    (apply str (map #(% 2) sol-grid))))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(def n1 3)
+(def n2 9)</pre></td></tr><tr><td class="docs"><p>Pretty-printing Sudoku of order 3.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn pretty-print
+  [puzzle]
+  (let [rule &quot;+-------+-------+-------+\n&quot;]
+    (doseq [[row col ch] (map-indexed #(vector (inc (quot %1 n2)) (inc (rem %1 n2)) %2) puzzle)]
+      (if (and (= 1 col) (= 1 (mod row n1))) (print rule))
+      (if (= 1 (mod col n1)) (print (str &quot;| &quot; ch &quot; &quot;)) (print (str ch &quot; &quot;)))
+      (if (= 9 col) (print &quot;|\n&quot;)))
+    (print rule)))</pre></td></tr><tr><td class="docs"><h2>Example for a puzzle</h2>
+</td><td class="codes"></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(pretty-print puzzle)</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(pretty-print (solve puzzle))</pre></td></tr><tr><td class="docs"><h2>Parser for files containing puzzles</h2>
+
+<p>The parsers looks for lines with 81 characters, the digits 1-9 and the character .
+Other lines in the file are ignored</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>Parses file with filename and returns a list of puzzles.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn parse
+  [filename]
+  (with-open [rdr (reader filename)]
+    (into () (filter #(re-matches #&quot;^([1-9]|\.){81}$&quot; %) (line-seq rdr)))))</pre></td></tr><tr><td class="docs"><h2>Benchmarks</h2>
+</td><td class="codes"><pre class="brush: clojure">(defn bench
+  [puzzles]
+  (time
+    (do
+      (dorun (map solve puzzles))
+      :done)))</pre></td></tr><tr><td class="docs"><p>easy50.txt</p>
+</td><td class="codes"><pre class="brush: clojure">(def easy50 (parse &quot;resources/sudoku/easy50.txt&quot;))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">easy50
+
+(bench easy50)</pre></td></tr><tr><td class="docs"><p>=> 8.4 secs</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>top95.txt</p>
+</td><td class="codes"><pre class="brush: clojure">(def top95 (parse &quot;resources/sudoku/top95.txt&quot;))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">top95
+
+(bench top95)</pre></td></tr><tr><td class="docs"><p>=> 93 secs</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>hardest.txt</p>
+</td><td class="codes"><pre class="brush: clojure">(def hardest (parse &quot;resources/sudoku/hardest.txt&quot;))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">hardest
+(count hardest)</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(count hardest)</pre></td></tr><tr><td class="docs"><p>=> 11</p>
+</td><td class="codes"></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(bench hardest)</pre></td></tr><tr><td class="docs"><p>=> 5 secs</p>
+</td><td class="codes"></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#kic.rel" name="kic.rel"><h1 class="project-name">kic.rel</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(ns kic.rel)</pre></td></tr><tr><td class="docs"><p>Representation of a relation: a set of vectors of a common arity.</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>Usage: (unary-rel coll)
+   Returns a unary rel containing the elements of the collection coll.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn unary-rel 
+  [coll]
+  (set (map #(vector %) coll)))</pre></td></tr><tr><td class="docs"><p>Usage: (rel vec-coll)
+   Returns a rel consisting of the tuples vec-coll.</p>
+
+<p>   Requires: All elements of vec-coll have the same arity.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn rel 
+  [vec-coll]
+  (set vec-coll))</pre></td></tr><tr><td class="docs"><p>Usage: (crossjoin &amp; rels)
+   Returns the cross join of the given rels.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn crossjoin
+  [&amp; rels]
+  (let [cross (fn cross [&amp; seqs]
+							  (when seqs
+							    (if-let [s (first seqs)]
+							      (if-let [ss (next seqs)]
+							        (for [x  s
+							              ys (apply cross ss)]
+							          (reduce conj x ys))
+							        s))))]
+  (set (apply cross rels))))</pre></td></tr><tr><td class="docs"><p>Usage: (dotjoin &amp; rels)
+   Returns the dot join of the given rels.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn dotjoin
+  [&amp; rels]
+  &quot;to be implemented&quot;)</pre></td></tr><tr><td class="docs"><p>Usage: (join &amp; rels)
+   Returns the join of the given rels.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn join
+  [&amp; rels]
+  &quot;to be implemented&quot;)</pre></td></tr><tr><td class="docs"><p>Usage: (restrict rel pred)</p>
+
+<p>  Returns the restriction of the relation rel with respect
+  to the given predicate. The predicate must be a function
+  operating on a tuple and returning a boolean.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn restrict
+  [rel pred]
+  (filter pred rel))</pre></td></tr><tr><td class="docs"><p>Usage: (proj rel &amp; idx)
+   Returns the projection of rel on the given idxs</p>
+</td><td class="codes"><pre class="brush: clojure">(defn proj 
+  [rel &amp; idx]
+  &quot;to be implemented&quot;)</pre></td></tr><tr><td class="docs"><p>Usage: (transpose bin-rel)
+   Returns the transpose of the given binary relation.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn transpose
+  [bin-rel]
+  &quot;to be implemented&quot;)</pre></td></tr><tr><td class="docs"><p>Usage: (tclose bin-rel)
+   Returns the transitive closure of the given binary relation.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn tclose
+  [bin-rel]
+  &quot;to be implemented&quot;)</pre></td></tr><tr><td class="docs"><p>Usage: (intersection &amp; rels)
+   Returns the intersection of the given rels which all have the same arity.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn intersection
+  [&amp; rels]
+  &quot;to be implemented&quot;)</pre></td></tr><tr><td class="docs"><p>Usage: (difference rel1 rel2)
+   Returns the difference of the rel1 and rel2 which both have the same arity.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn difference
+  [rel1 rel2]
+  &quot;to be implemented&quot;)</pre></td></tr><tr><td class="docs"><p>Usage: (rsort rel comparator)</p>
+
+<p>   Returns the relation rel sorted using the given comparator.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn rsort
+  [rel comparator]
+  &quot;to be implemented&quot;)</pre></td></tr><tr><td class="docs"><p>(reflexive? rel) -> boolean
+   Returns whether the given binary rel is refelxive.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn reflexive?
+  [rel]
+  &quot;to be implemented&quot;)</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr></table><div class="footer">Generated by <a href="https://github.com/gdeer81/marginalia">Marginalia</a>.&nbsp;&nbsp;Syntax highlighting provided by Alex Gorbatchev's <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a><div id="floating-toc"><ul><li class="floating-toc-li" id="floating-toc_kic.core">kic.core</li><li class="floating-toc-li" id="floating-toc_kic.core">kic.core</li><li class="floating-toc-li" id="floating-toc_kic.examples.sudoku">kic.examples.sudoku</li><li class="floating-toc-li" id="floating-toc_kic.rel">kic.rel</li></ul></div></div><script type="text/javascript">SyntaxHighlighter.defaults['gutter'] = false;
 SyntaxHighlighter.all();
 
 // hackity hack

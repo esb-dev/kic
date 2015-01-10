@@ -1,4 +1,6 @@
 ; kic - Kodkod in Clojure
+; based on the Kodkod Constraint Solver, see http://alloy.mit.edu/kodkod/
+; licensed under the MIT license
 
 ; Copyright (c) 2014 by Burkhardt Renz THM. All rights reserved.
 ; The use and distribution terms for this software are covered by the
@@ -140,9 +142,7 @@
                 (tupleset structure (second (val r)))))
     b))
 
-;; defn formula erzeugt Kodkod Formel aus einem String
-
-(defn solve 
+(defn solve
   "(solve formula bounds) -> a kodkod.engine.Solution
    (solve formula bounds options) -> a kodkod.engine.Solution"
   ([formula bounds]
@@ -179,7 +179,7 @@
 
 
 ;; kodkod.engine.Solution -> vector of outcome, relmap
-(defn inst-from-solution
+(defn model
   "vector of outcome and instance <- kodkod.engine.Solution"
   [^Solution solution]
   [(outcome solution) (relmap-from-instmap (.relationTuples (.instance solution)))])
