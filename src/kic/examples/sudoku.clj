@@ -4,21 +4,12 @@
   (:require [clojure.java.io :refer (reader)])
   (:require [clojure.set :as set])
 )
-
-(defn ctoi
-  "Returns the int of given char, 0 if char is '.'."
-  [char]
-  (let [i0 (int \0)]
-    (if (= \. char) 0 (- (int char) (int \0)))))
-
 ;; A puzzle is represented as a vector of integers
-(def puzzle (map ctoi ".24...38.6.72.91.481.7.3.96.48...97...........69...51.75.9.8.414.16.57.9.96...83."))
-
-puzzle
 
 ;; Structure of the Sudoku world
-(def sudoku (kic/structure (vec (range 1 10))  ; atoms of the univers: integers 1..9
-              {:grid 3, :region1 1, :region2 1, :region3 1}))
+(def sudoku
+  (kic/structure (vec (range 1 10))
+  {:grid 3, :region1 1, :region2 1, :region3 1}))
 
 ;; The Sudoku world has as universe the integers 1..9.
 
@@ -30,7 +21,6 @@ puzzle
 
 ;; Expressing the rules of Sudoku:
 
-;; rules
 (defn- cells
   "Expression for the cells in the grid given by rows and cols."
   [rows cols]
@@ -50,33 +40,39 @@ puzzle
            (for [x [r1 r2 r3] y [r1 r2 r3]]
              (complete x y)))))
 
-(def rules
+; slow rules
+#_(def rules
   (let [x    (kic/variable :x)
         y    (kic/variable :y)
-        n    kic/UNIV
+        u    kic/UNIV
 
         f1   (kic/forall [x y] (kic/one (cells x y)))
-        ; "all x, y | one y.(x.grid), i.e. Each cell holds exactly one number."
-        f2   (kic/forall [x] (complete x n))
-        ; "all x | n in n.(x.grid), i.e. Each row contains all numbers."
-        f3   (kic/forall [y] (complete n y))
-        ; "all y | n in y.(n.grid), i.e. Each column contains all numbers.
+        ; "all x, y : one y.(x.grid), i.e. Each cell holds exactly one number."
+        f2   (kic/forall [x] (complete x u))
+        ; "all x : u in u.(x.grid), i.e. Each row contains all numbers."
+        f3   (kic/forall [y] (complete u y))
+        ; "all y : u in u.(n.grid), i.e. Each column contains all numbers.
         ]
     (kic/and f1 f2 f3 reg-blocks)))
 
-(def rules'
+; fast
+(def rules
   (let [x    (kic/variable :x)
         y    (kic/variable :y)
-        n    kic/UNIV
+        u    kic/UNIV
 
         f1   (kic/forall [x y] (kic/one (cells x y)))
-        ; "all x, y | one y.(x.grid), i.e. Each cell holds exactly one number."
+        ; "all x, y : one y.(x.grid), i.e. Each cell holds exactly one number."
         f2   (kic/forall [x y] (kic/no (kic/intersection
                                          (cells x y)
-                                         (cells x (kic/difference n y)))))
+                                         (cells x (kic/difference u y)))))
+        ; "all x, y : no y.(x.grid) ∩ (u-y).(x.grid), i.e. the number in a cell
+        ; does not occur in another cell of the same row."
         f3   (kic/forall [x y] (kic/no (kic/intersection
                                          (cells x y)
-                                         (cells (kic/difference n x) y))))
+                                         (cells (kic/difference u x) y))))
+        ; "all x, y : no y.(x.grid) ∩ y.((u-x).grid), i.e. the number in a cell
+        ; does not occur in another cell of the same column."
         ]
     (kic/and f1 f2 f3 reg-blocks)))
 
@@ -151,16 +147,21 @@ puzzle
 (defn solve
   "Returns the solution of the puzzle."
   [puzzle]
-  (let  [sol (kic/solve rules' (sudoku-bounds puzzle))
+  (let  [sol (kic/solve rules (sudoku-bounds puzzle))
          sol-grid (sort (((kic/model sol) 1) :grid))]
     (map #(% 2) sol-grid)))
 
-; kic/model is a vector whose second entry is a map with key the rel vars and values the
+; kic/model is a vector whose second entry is a map with key the relvars and values the
 ; relation of the solution
 
 ; we sort the relation of the :grid rel var
 ; the solution of the puzzle is the value at index 2 of the tuples of sol-grid
 
+(defn ctoi
+  "Returns the int of given char, 0 if char is '.'."
+  [char]
+  (let [i0 (int \0)]
+    (if (= \. char) 0 (- (int char) i0))))
 
 (defn pretty-print
   "Prints puzzle of order 3 decoded as a vector of integers."
@@ -174,6 +175,10 @@ puzzle
               (= 0 (mod col 3)) (print (str " " ch " ")))
         (if (= 9 col) (print "|\n"))))
     (print rule)))
+
+stop -- the following is the interactive part
+
+(def puzzle (map ctoi ".24...38.6.72.91.481.7.3.96.48...97...........69...51.75.9.8.414.16.57.9.96...83."))
 
 (pretty-print puzzle)
 
@@ -202,21 +207,26 @@ puzzle
 
 easy50
 
-(bench easy50)
-;=> 8.8 secs
+(dotimes [_ 10]
+  (bench easy50))
+;=> 683 msecs
 
 ;; top95.txt
 (def top95 (parse "resources/sudoku/top95.txt"))
 
 top95
 
-(bench top95)
-;=> 91 secs
+(dotimes [_ 10]
+  (bench top95))
+;=> 1269 msecs
 
 ;; hardest.txt
 (def hardest (parse "resources/sudoku/hardest.txt"))
 
 hardest
 
-(bench hardest)
-;=> 5 secs
+(dotimes [_ 10]
+  (bench hardest))
+;=> 121 msecs
+
+
