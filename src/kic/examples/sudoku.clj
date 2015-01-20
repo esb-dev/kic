@@ -14,7 +14,7 @@
 ;; The Sudoku world has as universe the integers 1..9.
 
 ;; :grid is a ternary relation representing the cells with their value, a tuple of
-;; :grid [x y v] means: the cell index with x and y of the puzzle has value n
+;; :grid [x y d] means: the cell index with x and y of the puzzle has value d
 
 ;; :region1..:region3 are unary relations, used as helpers to express the blocks
 ;; of the puzzle
@@ -148,7 +148,7 @@
   "Returns the solution of the puzzle."
   [puzzle]
   (let  [sol (kic/solve rules (sudoku-bounds puzzle))
-         sol-grid (sort (((kic/model sol) 1) :grid))]
+         sol-grid (sort (:grid (kic/model sol)))]
     (map #(% 2) sol-grid)))
 
 ; kic/model is a vector whose second entry is a map with key the relvars and values the
@@ -166,15 +166,15 @@
 (defn pretty-print
   "Prints puzzle of order 3 decoded as a vector of integers."
   [puzzle]
-  (let [rule "+-------+-------+-------+\n"]
+  (let [ruler "+-------+-------+-------+\n"]
     (doseq [[row col dch] (map-indexed #(vector (inc (quot %1 9)) (inc (rem %1 9)) %2) puzzle)]
       (let [ch (if (zero? dch) \. dch)]
-        (if (and (= 1 col) (= 1 (mod row 3))) (print rule))
+        (if (and (= 1 col) (= 1 (mod row 3))) (print ruler))
         (cond (= 1 (mod col 3)) (print (str "| " ch ))
               (= 2 (mod col 3)) (print (str " " ch ))
               (= 0 (mod col 3)) (print (str " " ch " ")))
         (if (= 9 col) (print "|\n"))))
-    (print rule)))
+    (print ruler)))
 
 stop -- the following is the interactive part
 
@@ -209,7 +209,7 @@ easy50
 
 (dotimes [_ 10]
   (bench easy50))
-;=> 683 msecs
+;=> 14 msecs per puzzle
 
 ;; top95.txt
 (def top95 (parse "resources/sudoku/top95.txt"))
@@ -218,7 +218,7 @@ top95
 
 (dotimes [_ 10]
   (bench top95))
-;=> 1269 msecs
+;=> 14 msecs per puzzle
 
 ;; hardest.txt
 (def hardest (parse "resources/sudoku/hardest.txt"))
@@ -227,6 +227,21 @@ hardest
 
 (dotimes [_ 10]
   (bench hardest))
-;=> 121 msecs
+;=> 11 msecs per puzzle
 
+; average 14 msecs per puzzle
+
+
+(def p88 (nth top95 88))
+(def p92 (nth top95 92))
+
+(- 81 (count (filter zero? p88)))
+; => 17
+(time (solve p88))
+; 15 msecs
+
+(- 81 (count (filter zero? p92)))
+; => 17
+(time (solve p92))
+; 15 msecs
 

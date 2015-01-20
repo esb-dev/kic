@@ -178,9 +178,9 @@
   (keyword (str/lower-case (.toString (.outcome solution)))))
 
 
-;; kodkod.engine.Solution -> vector of outcome, relmap
+;; kodkod.engine.Solution -> map of relations 
 (defn model
-  "vector of outcome and instance <- kodkod.engine.Solution"
+  "model satisfying the kic spec"
   [^Solution solution]
-  [(outcome solution) (relmap-from-instmap (.relationTuples (.instance solution)))])
+  (relmap-from-instmap (.relationTuples (.instance solution))))
 
