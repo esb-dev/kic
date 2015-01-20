@@ -17,17 +17,17 @@ Clojure API to Kodkod much more elegant.
 
 ### The structure of our world
 
-kic specification is based on a fixed structure,
+A kic specification is based on a fixed structure,
 comprising a finite universe of "things" and a set
 of relation variables.
 
 The structure of the world for the problem to
 be solved is in Clojure represented as a map. It is
-build by the function `structure`
+build by the function `structure`:
 
 `structure things relvars` where `things` is a vector of
-objects for out world, and `relvars` is a map of keys and arities,
-one for each relation vairable in the structure.
+objects for our world, and `relvars` is a map of keys and arities,
+one for each relation variable in the structure.
 
 As an example let's define a structure for a latin square of
 order 4:
@@ -40,7 +40,7 @@ ls-world
 ;=> {:univ #<Universe [1, 2, 3, 4]>, :grid #<Relation grid>}  
 ```
                  
-The structure is `ls-world` then is the universe `:univ` of the
+The structure is `ls-world` with the universe `:univ` of the
 integers 1, 2, 3, 4 and a ternary relation variable `:grid` 
 that represents the latin square to be build. Each tuple `[x y d]`
 denotes the value `d` in the cell with coordinates `x` and `y` of 
@@ -52,7 +52,7 @@ The constraints on the relation variables of the structure are
 formulated as formulae with expressions of the relational algebra.
 
 The abstract syntax together with the semantic of Kodkod is described
-in figure 2-1 on page 29 of [_Emina Torlak- A Constraint Solver for 
+in figure 2-1 on page 29 of [_Emina Torlak_ A Constraint Solver for 
 Software Engineering: Finding Models and Cores of Large Relational 
 Specifications](http://homes.cs.washington.edu/~emina/pubs/kodkod.phd.pdf)
 
@@ -133,6 +133,12 @@ If we want to specify a latin square of order 4 with the first row given as
   (kic/bounds structure {:grid [lower upper]}))
 ```
 
+### Remark
+
+In Kodkod the relation variables are called 'relation' and for the
+relations the term 'tupleset' is used. I prefer 'relation variable' 
+(or short relvar) and 'relation' as used in the theory of relational 
+algebra.
 ## Running the solver 
 
 The Kodkod constraint solver translates the specification into a (huge)
@@ -169,12 +175,6 @@ Given the partial latin square
 +---------+
 ```
 
-## Remarks
-
-In Kodkod the relation variables are called 'relation' and for the
-relations the term 'tupleset' is used. I prefer 'relation variable' 
-(or short relvar) and 'relation' as used in the theory of relational 
-algebra.
 
 
 ## License
