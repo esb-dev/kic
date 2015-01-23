@@ -2866,7 +2866,7 @@ net.brehaut.ClojureTools = (function (SH) {
   };
 })(SyntaxHighlighter);
 </script><title>kic -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name"><a href="http://homepages.thm.de/~hg11260/kic.html">kic</a></h1><h2 class="project-version">0.1.0-SNAPSHOT</h2><br /><p>Kodkod in Clojure</p>
-</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0</td></tr><tr><td class="dep-name">kodkod</td><td class="dotted"><hr /></td><td class="dep-version">2.0.0</td></tr><tr><td class="dep-name">org.ow2.sat4j/org.ow2.sat4j.core</td><td class="dotted"><hr /></td><td class="dep-version">2.3.5</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#kic.core">kic.core</a></li><li><a href="#kic.core">kic.core</a></li><li><a href="#kic.examples.sudoku">kic.examples.sudoku</a></li><li><a href="#kic.rel">kic.rel</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#kic.core" name="kic.core"><h1 class="project-name">kic.core</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>A Clojure wrapper to the Kodkod constraint solver.</p>
+</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0</td></tr><tr><td class="dep-name">kodkod</td><td class="dotted"><hr /></td><td class="dep-version">2.0.0</td></tr><tr><td class="dep-name">org.ow2.sat4j/org.ow2.sat4j.core</td><td class="dotted"><hr /></td><td class="dep-version">2.3.5</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#kic.core">kic.core</a></li><li><a href="#kic.core">kic.core</a></li><li><a href="#kic.examples.latin-square">kic.examples.latin-square</a></li><li><a href="#kic.examples.sudoku">kic.examples.sudoku</a></li><li><a href="#kic.rel">kic.rel</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#kic.core" name="kic.core"><h1 class="project-name">kic.core</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>A Clojure wrapper to the Kodkod constraint solver.</p>
 </td><td class="codes"><pre class="brush: clojure">(ns ^{:doc    
       :author &quot;Burkhardt Renz THM&quot;}
   kic.core
@@ -2969,10 +2969,9 @@ key/value pairs for the relational variables</p>
       (.bound b (relvar structure (key r))
                 (tupleset structure (first (val r)))
                 (tupleset structure (second (val r)))))
-    b))</pre></td></tr><tr><td class="docs"><p>defn formula erzeugt Kodkod Formel aus einem String</p>
-</td><td class="codes"></td></tr><tr><td class="docs"><p>(solve formula bounds) -> a kodkod.engine.Solution
+    b))</pre></td></tr><tr><td class="docs"><p>(solve formula bounds) -> a kodkod.engine.Solution
    (solve formula bounds options) -> a kodkod.engine.Solution</p>
-</td><td class="codes"><pre class="brush: clojure">(defn solve 
+</td><td class="codes"><pre class="brush: clojure">(defn solve
   ([formula bounds]
     (solve formula bounds (options {})))
   ([formula bounds options]
@@ -2997,12 +2996,12 @@ key/value pairs for the relational variables</p>
 <p>kodkod.engine.Solution -> keyword for outcome</p>
 </td><td class="codes"><pre class="brush: clojure">(defn outcome
   [^Solution solution]
-  (keyword (str/lower-case (.toString (.outcome solution)))))</pre></td></tr><tr><td class="docs"><p>vector of outcome and instance &lt;- kodkod.engine.Solution</p>
+  (keyword (str/lower-case (.toString (.outcome solution)))))</pre></td></tr><tr><td class="docs"><p>model satisfying the kic spec</p>
 
-<p>kodkod.engine.Solution -> vector of outcome, relmap</p>
-</td><td class="codes"><pre class="brush: clojure">(defn inst-from-solution
+<p>kodkod.engine.Solution -> map of relations </p>
+</td><td class="codes"><pre class="brush: clojure">(defn model
   [^Solution solution]
-  [(outcome solution) (relmap-from-instmap (.relationTuples (.instance solution)))])</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#kic.core" name="kic.core"><h1 class="project-name">kic.core</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>A Clojure wrapper to the Kodkod constraint solver. 
+  (relmap-from-instmap (.relationTuples (.instance solution))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#kic.core" name="kic.core"><h1 class="project-name">kic.core</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>A Clojure wrapper to the Kodkod constraint solver. 
                This part comprises the function for expressions and
                formulae, it is loaded in kic.core</p>
 </td><td class="codes"><pre class="brush: clojure">(ns ^{:doc    
@@ -3103,7 +3102,8 @@ key/value pairs for the relational variables</p>
 </td><td class="codes"><pre class="brush: clojure">(defn forall
   [var-vec fml]
   (let [d (apply decls (map decl var-vec))]
-    (.forAll fml d)))</pre></td></tr><tr><td class="docs"><p>Expressions denoting the manipulation of values of relational variables</p>
+    (.forAll fml d)))</pre></td></tr><tr><td class="docs"><h2>Expressions</h2>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>Expressions denoting the manipulation of values of relational variables</p>
 </td><td class="codes"></td></tr><tr><td class="docs"><p>(intersection expr &amp; more-exprs), the intersection of the arguments.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn intersection
   [expr &amp; more-exprs]
@@ -3177,7 +3177,7 @@ key/value pairs for the relational variables</p>
   ([var-name]
     (Variable/unary (name var-name)))
   ([var-name arity]
-    (Variable/nary (name var-name) arity)))</pre></td></tr><tr><td class="docs"><p>Integer expressions</p>
+    (Variable/nary (name var-name) arity)))</pre></td></tr><tr><td class="docs"><h2>Integer expressions</h2>
 </td><td class="codes"></td></tr><tr><td class="docs"><p>(plus int-expr &amp; more-int-exprs), the sum of the arguments.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn plus
   [int-expr &amp; more-int-exprs]
@@ -3238,7 +3238,7 @@ key/value pairs for the relational variables</p>
   (.count expr))</pre></td></tr><tr><td class="docs"><p>(iexp int), int-expr for the given integer int.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn iexp
   [int]
-  (IntConstant/constant int))</pre></td></tr><tr><td class="docs"><p>Declarations</p>
+  (IntConstant/constant int))</pre></td></tr><tr><td class="docs"><h2>Declarations</h2>
 </td><td class="codes"></td></tr><tr><td class="docs"><p>(decls decl &amp; more-decls), the combined decls from the arguments.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn decls
   [decl &amp; more-decls]
@@ -3258,47 +3258,203 @@ key/value pairs for the relational variables</p>
       :one  (.oneOf  variable expr)
       :lone (.loneOf variable expr)
       :some (.someOf variable expr)
-      :set  (.setOf  variable expr))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#kic.examples.sudoku" name="kic.examples.sudoku"><h1 class="project-name">kic.examples.sudoku</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+      :set  (.setOf  variable expr))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#kic.examples.latin-square" name="kic.examples.latin-square"><h1 class="project-name">kic.examples.latin-square</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(ns kic.examples.latin-square
+  (:require [kic.core :as kic])
+  (:require [kic.rel :as rel])
+  (:require [clojure.set :as set]))</pre></td></tr><tr><td class="docs"><p>Structure of the Latin Square world</p>
+</td><td class="codes"><pre class="brush: clojure">(defn ls-world
+  [size]
+  (kic/structure (vec (range 1 (inc size)))
+                 {:grid 3}))</pre></td></tr><tr><td class="docs"><p>The world has as universe the integers 1..size.</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>:grid is a ternary relation representing the cells with their value, a tuple of
+:grid [x y v] means: the cell index with x and y of the square has value v</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>Expressing the constraints for a latin square:</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>Expression for the cells in the grid given by rows and cols.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn- cells
+  [structure rows cols]
+  (kic/dotjoin cols (kic/dotjoin rows (kic/relvar structure :grid))))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn rules
+  [structure]
+  (let [x    (kic/variable :x)
+        y    (kic/variable :y)
+        u    kic/UNIV
+        f1   (kic/forall [x y] (kic/one (cells structure x y)))
+        ; &quot;all x, y : one y.(x.grid), i.e. Each cell holds exactly one number.&quot;
+        f2   (kic/forall [x y] (kic/no (kic/intersection
+                                         (cells structure x y)
+                                         (cells structure x (kic/difference u y)))))
+        ; &quot;all x, y : no y.(x.grid) ∩ (u-y).(x.grid), i.e. the number in a cell
+        ; does not occur in another cell of the same row.&quot;
+        f3   (kic/forall [x y] (kic/no (kic/intersection
+                                         (cells structure x y)
+                                         (cells structure (kic/difference u x) y))))
+        ; &quot;all x, y : no y.(x.grid) ∩ y.((u-x).grid), i.e. the number in a cell
+        ; does not occur in another cell of the same column.&quot;
+        ]
+    (kic/and f1 f2 f3)))</pre></td></tr><tr><td class="docs"><p>Example:
+Latin square of size 4</p>
+</td><td class="codes"></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(def structure (ls-world 4))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(def constraints (rules structure))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn- row [idx] (inc (quot idx 4)))
+(defn- col [idx] (inc (rem idx 4)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn- upper-tuples
+  [^Integer n ^Integer idx]
+  (let [row (row idx) col (col idx) univ (kic/univ structure)]
+    (if-not (zero? n)
+      #{[row col n]}
+      (rel/crossjoin #{[row col]} univ))))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn- lower-tuple
+  [^Integer n ^Integer idx]
+  (let [row (row idx) col (col idx)]
+    (if-not (zero? n)
+      #{[1 col col]}
+      nil)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn- grid-bounds
+  [givens]
+  (loop [s givens, i 0, lower #{}, upper #{}]
+    (if (empty? s)
+      [lower upper]
+      (recur (next s) (inc i) (set/union lower (lower-tuple (first s) i))
+             (set/union upper (upper-tuples (first s) i))))))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn ls-bounds
+  [givens]
+  (kic/bounds structure {:grid (grid-bounds givens)}))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn solve
+  [givens]
+  (let  [sol (kic/solve constraints (ls-bounds givens))
+         sol-grid (sort (:grid (kic/model sol)))]
+    (map #(% 2) sol-grid)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn pretty-print
+  [n givens]
+  (let [line (apply str (repeat (inc (* 2 n)) &quot;-&quot;))
+        ruler (str &quot;+&quot; line &quot;+\n&quot;)]
+    (doseq [[row col dch] (map-indexed #(vector (inc (quot %1 n)) (inc (rem %1 n)) %2) givens)]
+      (let [ch (if (zero? dch) \. dch)]
+        (if (and (= 1 col) (= 1 row)) (print ruler))
+        (if (= 1 col) (print (str &quot;| &quot; ch &quot; &quot;))
+                      (print (str ch &quot; &quot;)))
+        (if (= n col) (print &quot;|\n&quot;))))
+    (print ruler)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(def example [1 2 3 4 0 0 0 0 0 0 0 0 0 0 0 0])</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(pretty-print 4 example)</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(pretty-print 4 (solve example))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(def lower
+  #{[1 1 1]
+    [1 2 2]
+    [1 3 3]
+    [1 4 4]})</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(def upper
+  #{[1 1 1]
+    [1 2 2]
+    [1 3 3]
+    [1 4 4]
+    [2 1 1] [2 1 2] [2 1 3] [2 1 4]
+    [2 2 1] [2 2 2] [2 2 3] [2 2 4]
+    [2 3 1] [2 3 2] [2 3 3] [2 3 4]
+    [2 4 1] [2 4 2] [2 4 3] [2 4 4]
+    [3 1 1] [3 1 2] [3 1 3] [3 1 4]
+    [3 2 1] [3 2 2] [3 2 3] [3 2 4]
+    [3 3 1] [3 3 2] [3 3 3] [3 3 4]
+    [3 4 1] [3 4 2] [3 4 3] [3 4 4]
+    [4 1 1] [4 1 2] [4 1 3] [4 1 4]
+    [4 2 1] [4 2 2] [4 2 3] [4 2 4]
+    [4 3 1] [4 3 2] [4 3 3] [4 3 4]
+    [4 4 1] [4 4 2] [4 4 3] [4 4 4]})</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(def bounds 
+  (kic/bounds structure {:grid [lower upper]}))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn solve-ls4 []
+ (let  [sol (kic/solve constraints bounds)
+        sol-grid (sort (:grid (kic/model sol)))]
+    (map #(% 2) sol-grid)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(pretty-print 4 (solve-example))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#kic.examples.sudoku" name="kic.examples.sudoku"><h1 class="project-name">kic.examples.sudoku</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns kic.examples.sudoku
   (:require [kic.core :as kic])
   (:require [kic.rel :as rel])
   (:require [clojure.java.io :refer (reader)])
-  (:require [clojure.set :as set]))</pre></td></tr><tr><td class="docs"><p>A puzzle is represented as a string of digits</p>
-</td><td class="codes"><pre class="brush: clojure">(def puzzle &quot;.24...38.6.72.91.481.7.3.96.48...97...........69...51.75.9.8.414.16.57.9.96...83.&quot;)</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">puzzle
-</pre></td></tr><tr><td class="docs"><p>Structure of the Sudoku world</p>
-</td><td class="codes"><pre class="brush: clojure">(def sudoku (kic/structure
-              (vec (range 1 10))  ; universe atoms are integers 1..9
-              {:grid 3, :region1 1, :region2 1, :region3 1}))</pre></td></tr><tr><td class="docs"><p>Constructing the bounds for the puzzle</p>
-</td><td class="codes"><pre class="brush: clojure">(def reg1 (rel/unary-rel (range 1  4)))
-(def reg2 (rel/unary-rel (range 4  7)))
-(def reg3 (rel/unary-rel (range 7 10)))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(def reg1-b {:region1 [reg1, reg1]})
-(def reg2-b {:region2 [reg2, reg2]})
-(def reg3-b {:region3 [reg3, reg3]})</pre></td></tr><tr><td class="docs"><p>Returns the row of the number at idx.</p>
+  (:require [clojure.set :as set]))</pre></td></tr><tr><td class="docs"><p>A puzzle is represented as a vector of integers</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>Structure of the Sudoku world</p>
+</td><td class="codes"><pre class="brush: clojure">(def sudoku
+  (kic/structure (vec (range 1 10))
+  {:grid 3, :region1 1, :region2 1, :region3 1}))</pre></td></tr><tr><td class="docs"><p>The Sudoku world has as universe the integers 1..9.</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>:grid is a ternary relation representing the cells with their value, a tuple of
+:grid [x y d] means: the cell index with x and y of the puzzle has value d</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>:region1..:region3 are unary relations, used as helpers to express the blocks
+of the puzzle</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>Expressing the rules of Sudoku:</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>Expression for the cells in the grid given by rows and cols.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn- cells
+  [rows cols]
+  (kic/dotjoin cols (kic/dotjoin rows (kic/relvar sudoku :grid))))</pre></td></tr><tr><td class="docs"><p>Formula whether all numbers 1..9 are in the given cells.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn- complete
+  [rows cols]
+  (kic/in kic/UNIV (cells rows cols)))</pre></td></tr><tr><td class="docs"><p>Each block contains all numbers.</p>
+</td><td class="codes"><pre class="brush: clojure">(def reg-blocks
+  (let [r1   (kic/relvar sudoku :region1)
+        r2   (kic/relvar sudoku :region2)
+        r3   (kic/relvar sudoku :region3)]
+    (apply kic/and
+           (for [x [r1 r2 r3] y [r1 r2 r3]]
+             (complete x y)))))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">#_(def rules
+  (let [x    (kic/variable :x)
+        y    (kic/variable :y)
+        u    kic/UNIV
+        f1   (kic/forall [x y] (kic/one (cells x y)))
+        ; &quot;all x, y : one y.(x.grid), i.e. Each cell holds exactly one number.&quot;
+        f2   (kic/forall [x] (complete x u))
+        ; &quot;all x : u in u.(x.grid), i.e. Each row contains all numbers.&quot;
+        f3   (kic/forall [y] (complete u y))
+        ; &quot;all y : u in u.(n.grid), i.e. Each column contains all numbers.
+        ]
+    (kic/and f1 f2 f3 reg-blocks)))
+; fast
+(def rules
+  (let [x    (kic/variable :x)
+        y    (kic/variable :y)
+        u    kic/UNIV
+        f1   (kic/forall [x y] (kic/one (cells x y)))
+        ; &quot;all x, y : one y.(x.grid), i.e. Each cell holds exactly one number.&quot;
+        f2   (kic/forall [x y] (kic/no (kic/intersection
+                                         (cells x y)
+                                         (cells x (kic/difference u y)))))
+        ; &quot;all x, y : no y.(x.grid) ∩ (u-y).(x.grid), i.e. the number in a cell
+        ; does not occur in another cell of the same row.&quot;
+        f3   (kic/forall [x y] (kic/no (kic/intersection
+                                         (cells x y)
+                                         (cells (kic/difference u x) y))))
+        ; &quot;all x, y : no y.(x.grid) ∩ y.((u-x).grid), i.e. the number in a cell
+        ; does not occur in another cell of the same column.&quot;
+        ]
+    (kic/and f1 f2 f3 reg-blocks)))</pre></td></tr><tr><td class="docs"><p>Constructing the bounds for the puzzle</p>
+</td><td class="codes"></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(let [reg1 (rel/unary-rel (range 1  4))
+      reg2 (rel/unary-rel (range 4  7))
+      reg3 (rel/unary-rel (range 7 10))]
+  (def reg1-b {:region1 [reg1, reg1]})
+  (def reg2-b {:region2 [reg2, reg2]})
+  (def reg3-b {:region3 [reg3, reg3]}))</pre></td></tr><tr><td class="docs"><p>Returns the row of the number at idx.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn- row
   [idx]
   (inc (quot idx 9)))</pre></td></tr><tr><td class="docs"><p>Returns the col of the number at idx.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn- col
   [idx]
-  (inc (rem idx 9)))</pre></td></tr><tr><td class="docs"><p>Returns the int of given char.</p>
-</td><td class="codes"><pre class="brush: clojure">(defn- ctoi
-  [char]
-  (- (int char) (int \0)))</pre></td></tr><tr><td class="docs"><p>Returns the tuples for the upper bound for number c (as char).</p>
+  (inc (rem idx 9)))</pre></td></tr><tr><td class="docs"><p>Returns the tuples for the upper bound for number n at idx.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn- upper-tuples
-  [^Character c ^Integer idx]
-  (let [n (ctoi c) row (row idx) col (col idx) univ (kic/univ sudoku)]
-    (if-not (= c \.)
+  [^Integer n ^Integer idx]
+  (let [row (row idx) col (col idx) univ (kic/univ sudoku)]
+    (if-not (zero? n)
       #{[row col n]}
-      (rel/crossjoin #{[row col]} univ))))</pre></td></tr><tr><td class="docs"><p>Returns the tuple for the lower bound for number c.</p>
+      (rel/crossjoin #{[row col]} univ))))</pre></td></tr><tr><td class="docs"><p>Returns the tuple for the lower bound for number n at idx.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn- lower-tuple
-  [^Character c ^Integer idx]
-  (let [n (ctoi c) row (row idx) col (col idx)]
-    (if-not (= c \.)
+  [^Integer n ^Integer idx]
+  (let [row (row idx) col (col idx)]
+    (if-not (zero? n)
       #{[row col n]}
       nil)))</pre></td></tr><tr><td class="docs"><p>Returns lower and upper bounds of :grid for the given puzzle.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn- grid-bounds
-  [^String puzzle]
+  [puzzle]
   (loop [s puzzle, i 0, lower #{}, upper #{}]
     (if (empty? s)
       [lower upper]
@@ -3306,54 +3462,28 @@ key/value pairs for the relational variables</p>
              (set/union upper (upper-tuples (first s) i))))))</pre></td></tr><tr><td class="docs"><p>Returns bounds for the given puzzle.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn sudoku-bounds
   [puzzle]
-  (kic/bounds sudoku (merge reg1-b reg2-b reg3-b {:grid (grid-bounds puzzle)})))</pre></td></tr><tr><td class="docs"><p>Returns the expression for the cells in the grid given by rows and cols.
-   Uses var sudoku!</p>
-
-<p>rules</p>
-</td><td class="codes"><pre class="brush: clojure">(defn- cells
-  [rows cols]
-  (kic/dotjoin cols (kic/dotjoin rows (kic/relvar sudoku :grid))))</pre></td></tr><tr><td class="docs"><p>Returns the formula whether all numbers are in the given cells.
-   Uses var sudoku!</p>
-</td><td class="codes"><pre class="brush: clojure">(def c (comprehension))
-(cells 1 2)
-(defn- complete
-  [rows cols]
-  (kic/in kic/UNIV (cells rows cols)))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(def reg-rules
-  (let [r1   (kic/relvar sudoku :region1)
-        r2   (kic/relvar sudoku :region2)
-        r3   (kic/relvar sudoku :region3)]
-    (apply kic/and
-           (for [x [r1 r2 r3] y [r1 r2 r3]]
-             (complete x y)))))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(def rules
-  (let [x    (kic/variable :x)
-        y    (kic/variable :y)
-        n    kic/UNIV
-        f1   (kic/forall [x y] (kic/one (cells x y)))
-        ; &quot;all x, y | one y.(x.grid)&quot;
-        f2   (kic/forall [x] (complete x n))
-        ; &quot;all x | n in n.(x.grid)&quot;
-        f3   (kic/forall [y] (complete n y))
-        ; &quot;all y | n in y.(n.grid)&quot;
-        ]
-    (kic/and f1 f2 f3 reg-rules)))</pre></td></tr><tr><td class="docs"><p>Returns the solution of the puzzle.</p>
+  (kic/bounds sudoku (merge reg1-b reg2-b reg3-b {:grid (grid-bounds puzzle)})))</pre></td></tr><tr><td class="docs"><p>Returns the solution of the puzzle.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn solve
   [puzzle]
   (let  [sol (kic/solve rules (sudoku-bounds puzzle))
-         sol-grid (sort (((kic/inst-from-solution sol) 1) :grid))]
-    (apply str (map #(% 2) sol-grid))))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(def n1 3)
-(def n2 9)</pre></td></tr><tr><td class="docs"><p>Pretty-printing Sudoku of order 3.</p>
+         sol-grid (sort (:grid (kic/model sol)))]
+    (map #(% 2) sol-grid)))</pre></td></tr><tr><td class="docs"><p>Returns the int of given char, 0 if char is '.'.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn ctoi
+  [char]
+  (let [i0 (int \0)]
+    (if (= \. char) 0 (- (int char) i0))))</pre></td></tr><tr><td class="docs"><p>Prints puzzle of order 3 decoded as a vector of integers.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn pretty-print
   [puzzle]
-  (let [rule &quot;+-------+-------+-------+\n&quot;]
-    (doseq [[row col ch] (map-indexed #(vector (inc (quot %1 n2)) (inc (rem %1 n2)) %2) puzzle)]
-      (if (and (= 1 col) (= 1 (mod row n1))) (print rule))
-      (if (= 1 (mod col n1)) (print (str &quot;| &quot; ch &quot; &quot;)) (print (str ch &quot; &quot;)))
-      (if (= 9 col) (print &quot;|\n&quot;)))
-    (print rule)))</pre></td></tr><tr><td class="docs"><h2>Example for a puzzle</h2>
-</td><td class="codes"></td></tr><tr><td class="docs">
+  (let [ruler &quot;+-------+-------+-------+\n&quot;]
+    (doseq [[row col dch] (map-indexed #(vector (inc (quot %1 9)) (inc (rem %1 9)) %2) puzzle)]
+      (let [ch (if (zero? dch) \. dch)]
+        (if (and (= 1 col) (= 1 (mod row 3))) (print ruler))
+        (cond (= 1 (mod col 3)) (print (str &quot;| &quot; ch ))
+              (= 2 (mod col 3)) (print (str &quot; &quot; ch ))
+              (= 0 (mod col 3)) (print (str &quot; &quot; ch &quot; &quot;)))
+        (if (= 9 col) (print &quot;|\n&quot;))))
+    (print ruler)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(def puzzle (map ctoi &quot;.24...38.6.72.91.481.7.3.96.48...97...........69...51.75.9.8.414.16.57.9.96...83.&quot;))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(pretty-print puzzle)</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(pretty-print (solve puzzle))</pre></td></tr><tr><td class="docs"><h2>Parser for files containing puzzles</h2>
 
@@ -3363,7 +3493,7 @@ Other lines in the file are ignored</p>
 </td><td class="codes"><pre class="brush: clojure">(defn parse
   [filename]
   (with-open [rdr (reader filename)]
-    (into () (filter #(re-matches #&quot;^([1-9]|\.){81}$&quot; %) (line-seq rdr)))))</pre></td></tr><tr><td class="docs"><h2>Benchmarks</h2>
+    (into () (map #(map ctoi %) (filter #(re-matches #&quot;^([1-9]|\.){81}$&quot; %) (line-seq rdr))))))</pre></td></tr><tr><td class="docs"><h2>Benchmarks</h2>
 </td><td class="codes"><pre class="brush: clojure">(defn bench
   [puzzles]
   (time
@@ -3373,20 +3503,27 @@ Other lines in the file are ignored</p>
 </td><td class="codes"><pre class="brush: clojure">(def easy50 (parse &quot;resources/sudoku/easy50.txt&quot;))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">easy50
 
-(bench easy50)</pre></td></tr><tr><td class="docs"><p>=> 8.4 secs</p>
+(dotimes [_ 10]
+  (bench easy50))</pre></td></tr><tr><td class="docs"><p>=> 14 msecs per puzzle</p>
 </td><td class="codes"></td></tr><tr><td class="docs"><p>top95.txt</p>
 </td><td class="codes"><pre class="brush: clojure">(def top95 (parse &quot;resources/sudoku/top95.txt&quot;))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">top95
 
-(bench top95)</pre></td></tr><tr><td class="docs"><p>=> 93 secs</p>
+(dotimes [_ 10]
+  (bench top95))</pre></td></tr><tr><td class="docs"><p>=> 14 msecs per puzzle</p>
 </td><td class="codes"></td></tr><tr><td class="docs"><p>hardest.txt</p>
 </td><td class="codes"><pre class="brush: clojure">(def hardest (parse &quot;resources/sudoku/hardest.txt&quot;))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">hardest
-(count hardest)</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(count hardest)</pre></td></tr><tr><td class="docs"><p>=> 11</p>
+
+(dotimes [_ 10]
+  (bench hardest))</pre></td></tr><tr><td class="docs"><p>=> 11 msecs per puzzle</p>
 </td><td class="codes"></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(bench hardest)</pre></td></tr><tr><td class="docs"><p>=> 5 secs</p>
-</td><td class="codes"></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#kic.rel" name="kic.rel"><h1 class="project-name">kic.rel</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(def p88 (nth top95 88))
+(def p92 (nth top95 92))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(- 81 (count (filter zero? p88)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(time (solve p88))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(- 81 (count (filter zero? p92)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(time (solve p92))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#kic.rel" name="kic.rel"><h1 class="project-name">kic.rel</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns kic.rel)</pre></td></tr><tr><td class="docs"><p>Representation of a relation: a set of vectors of a common arity.</p>
 </td><td class="codes"></td></tr><tr><td class="docs"><p>Usage: (unary-rel coll)
    Returns a unary rel containing the elements of the collection coll.</p>
@@ -3454,7 +3591,7 @@ Other lines in the file are ignored</p>
    Returns whether the given binary rel is refelxive.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn reflexive?
   [rel]
-  &quot;to be implemented&quot;)</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr></table><div class="footer">Generated by <a href="https://github.com/gdeer81/marginalia">Marginalia</a>.&nbsp;&nbsp;Syntax highlighting provided by Alex Gorbatchev's <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a><div id="floating-toc"><ul><li class="floating-toc-li" id="floating-toc_kic.core">kic.core</li><li class="floating-toc-li" id="floating-toc_kic.core">kic.core</li><li class="floating-toc-li" id="floating-toc_kic.examples.sudoku">kic.examples.sudoku</li><li class="floating-toc-li" id="floating-toc_kic.rel">kic.rel</li></ul></div></div><script type="text/javascript">SyntaxHighlighter.defaults['gutter'] = false;
+  &quot;to be implemented&quot;)</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr></table><div class="footer">Generated by <a href="https://github.com/gdeer81/marginalia">Marginalia</a>.&nbsp;&nbsp;Syntax highlighting provided by Alex Gorbatchev's <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a><div id="floating-toc"><ul><li class="floating-toc-li" id="floating-toc_kic.core">kic.core</li><li class="floating-toc-li" id="floating-toc_kic.core">kic.core</li><li class="floating-toc-li" id="floating-toc_kic.examples.latin-square">kic.examples.latin-square</li><li class="floating-toc-li" id="floating-toc_kic.examples.sudoku">kic.examples.sudoku</li><li class="floating-toc-li" id="floating-toc_kic.rel">kic.rel</li></ul></div></div><script type="text/javascript">SyntaxHighlighter.defaults['gutter'] = false;
 SyntaxHighlighter.all();
 
 // hackity hack

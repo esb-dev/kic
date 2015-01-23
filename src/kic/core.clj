@@ -35,6 +35,11 @@
 ;; :univ  the universe of objects in the world
 ;; key/value pairs for the relational variables
 
+
+; Remark concerning terminology:
+; In logic the term structure is used as a synonym for model
+; Signature is a better term, fix this!
+
 (defn- relvar-entry
   "(relvar-entry [key arity] -> [key Relation of arity and name (name key)]"
   [[key arity]]

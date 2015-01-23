@@ -166,6 +166,8 @@
   (let [d (apply decls (map decl var-vec))]
     (.forAll fml d)))
 
+;; ## Expressions 
+
 ;; Expressions denoting the manipulation of values of relational variables
 
 (defn intersection
@@ -281,7 +283,7 @@
   ([var-name arity]
     (Variable/nary (name var-name) arity)))
 
-;; Integer expressions
+;; ## Integer expressions
 
 (defn plus
   "(plus int-expr & more-int-exprs), the sum of the arguments."
@@ -381,7 +383,7 @@
   [int]
   (IntConstant/constant int))
 
-;; Declarations
+;; ## Declarations
 
 (defn decls
   "(decls decl & more-decls), the combined decls from the arguments."
